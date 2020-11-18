@@ -8,6 +8,7 @@ class paritcle:
         self.height = self.image.h
         self.fidx = 0
         self.time = 0
+        self.timer = 0
 
     def draw(self):
         sx = self.fidx * self.width
@@ -15,11 +16,12 @@ class paritcle:
 
     def update(self):
         self.time += gfw.delta_time
+        self.timer += 1
         self.fidx = int(self.time * 10 + 0.5) % 12
         #self.x += self.dx
         #self.y += self.dy * gfw.delta_time
 
-        if self.width == self.image.w:
+        if self.timer == 80:
             self.remove()
 
     def remove(self):

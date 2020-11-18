@@ -12,7 +12,7 @@ canvas_width = 720
 canvas_height = 1024
 
 def enter():
-    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui'])
+    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle'])
 
     bgSky = VertScrollBackground('StageBack.bmp')
     #bgCloud = VertScrollBackground('/clouds.png')
