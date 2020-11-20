@@ -9,7 +9,7 @@ import life_gauge
 from background import VertScrollBackground
 
 canvas_width = 720
-canvas_height = 1024
+canvas_height = 960
 
 def enter():
     gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle'])

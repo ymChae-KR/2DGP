@@ -27,3 +27,5 @@ class LaserBullet:
         hw = self.image.w // 2
         hh = self.image.h // 2
         return self.x - hw, self.y - hh, self.x + hw, self.y + hh
+
+

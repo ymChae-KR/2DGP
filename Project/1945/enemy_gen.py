@@ -2,6 +2,7 @@ import random
 import gfw
 from pico2d import *
 from enemy import Enemy
+from enemy import middleEnemy
 
 GEN_X = [ 50, 150, 250, 350, 450 ]
 next_wave = 0
@@ -19,7 +20,9 @@ def generate_wave():
         level = enemy_level()
         speed = -(100 + 5 * wave_index)
         e = Enemy(x, speed, level)
+        me = middleEnemy(x,speed,level)
         gfw.world.add(gfw.layer.enemy, e)
+        gfw.world.add(gfw.layer.enemy, me)
 
     wave_index += 1
     next_wave = random.uniform(5, 6)
