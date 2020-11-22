@@ -15,9 +15,7 @@ def enter():
     gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle'])
 
     bgSky = VertScrollBackground('StageBack.bmp')
-    #bgCloud = VertScrollBackground('/clouds.png')
     bgSky.speed = 10
-    #bgCloud.speed = 20
     gfw.world.add(gfw.layer.bg, bgSky)
 
     global player
@@ -31,7 +29,6 @@ def enter():
     global font
     font = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 40)
 
-   # gfw.world.add(gfw.layer.bg, bgCloud)
     life_gauge.load()
 
 def check_enemy(e):

@@ -91,6 +91,9 @@ class middleEnemy:
         self.fidx = int(self.time * 10 + 0.5) % 11
         self.x += self.dx
         self.y += self.dy * gfw.delta_time
+        if int(gfw.delta_time % 2) == 0:
+            b = EnemyBullet(self.y,self.y,-140)
+            gfw.world.add(gfw.layer.bullet, b)
 
         if self.y < -Enemy.SIZE:
             self.remove()
@@ -118,19 +121,26 @@ class middleEnemy:
             self.dx = -0.5
 
 class EnemyBullet:
-    SIZE = 40
+    SIZE = 24
     def __init__(self, x, y, speed):
         # self.pos = get_canvas_width() // 2, get_canvas_height() // 2
-        self.x, self.y = x, y
+        self.x, self.y = x, y - 200
         self.dy = speed
         self.image = gfw.image.load(RES_DIR + '/미사일 모션 투명.png')
+        self.src_width = self.image.w // 11
+        self.src_height = self.image.h
+        self.time = 0
         self.power = 100
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        sx = self.fidx * self.src_width
+        self.image.clip_draw(sx, 0, self.src_width, self.src_height, self.x, self.y)
+        gy = self.y - Enemy.SIZE // 2
 
     def update(self):
         self.y -= self.dy * gfw.delta_time
+        self.time += gfw.delta_time
+        self.fidx = int(self.time * 10 + 0.5) % 11
 
         if self.y > get_canvas_height() + EnemyBullet.SIZE or self.y < 0:
             self.remove()
