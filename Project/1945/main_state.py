@@ -18,6 +18,11 @@ def enter():
     bgSky.speed = 10
     gfw.world.add(gfw.layer.bg, bgSky)
 
+    global bgm
+    bgm = load_music(gobj.res('/bgm.mp3'))
+    bgm.set_volume(32)
+    bgm.repeat_play()
+
     global player
     player = Player()
     gfw.world.add(gfw.layer.player, player)

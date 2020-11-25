@@ -25,7 +25,7 @@ def generate_wave():
         gfw.world.add(gfw.layer.enemy, me)
 
     wave_index += 1
-    next_wave = random.uniform(5, 6)
+    next_wave = random.uniform(5, 10)
 
 LEVEL_ADJUST_PERCENTS = [ 10, 15, 15, 40, 15, 5 ] # -3 ~ 2
 def enemy_level():
