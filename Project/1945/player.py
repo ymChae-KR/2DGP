@@ -54,8 +54,8 @@ class Player:
 
     def draw(self):
         self.image.clip_draw(*self.src_rect, self.x, self.y)
-        # if self.laser_time < Player.SPARK_INTERVAL:
-        #     self.spark.draw(self.x, self.y + Player.SPARK_OFFSET)
+        if self.laser_time < Player.SPARK_INTERVAL:
+            self.spark.draw(self.x, self.y + Player.SPARK_OFFSET)
 
     def update(self):
         self.x += self.dx * self.speed * gfw.delta_time

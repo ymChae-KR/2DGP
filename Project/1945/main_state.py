@@ -12,7 +12,7 @@ canvas_width = 720
 canvas_height = 960
 
 def enter():
-    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle'])
+    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle', 'Boss'])
 
     bgSky = VertScrollBackground('StageBack.bmp')
     bgSky.speed = 10
@@ -33,6 +33,8 @@ def enter():
 
     global font
     font = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 40)
+
+    global emenyCnt
 
     life_gauge.load()
 

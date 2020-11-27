@@ -3,8 +3,9 @@ import gfw
 from pico2d import *
 from enemy import Enemy
 from enemy import middleEnemy
+from enemy import *
 
-GEN_X = [ 50, 150, 250, 350, 450 ]
+GEN_X = [ 50, 150, 250, 350, 450, 550, 650 ]
 next_wave = 0
 wave_index = 0
 
@@ -23,6 +24,10 @@ def generate_wave():
         me = middleEnemy(x,speed,level)
         gfw.world.add(gfw.layer.enemy, e)
         gfw.world.add(gfw.layer.enemy, me)
+
+        if wave_index == 1:
+            semiB = SemiBoss(x, speed, level)
+            gfw.world.add(gfw.layer.enemy, semiB)
 
     wave_index += 1
     next_wave = random.uniform(5, 10)
