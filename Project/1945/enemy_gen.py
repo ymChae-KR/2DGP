@@ -6,6 +6,7 @@ from enemy import middleEnemy
 from enemy import *
 
 GEN_X = [ 50, 150, 250, 350, 450, 550, 650 ]
+GEN_X2 =[ 100, 200, 300, 400, 500, 600, 700]
 next_wave = 0
 wave_index = 0
 
@@ -25,9 +26,14 @@ def generate_wave():
         gfw.world.add(gfw.layer.enemy, e)
         gfw.world.add(gfw.layer.enemy, me)
 
-        if wave_index == 1:
+        if wave_index == 4:
             semiB = SemiBoss(x, speed, level)
             gfw.world.add(gfw.layer.enemy, semiB)
+    for i in range(0,5):
+        x = GEN_X2[i]
+        speed = -(100 + 5 * wave_index)
+        e = redEnemy(x, speed, level)
+        gfw.world.add(gfw.layer.enemy, e)
 
     wave_index += 1
     next_wave = random.uniform(5, 10)
