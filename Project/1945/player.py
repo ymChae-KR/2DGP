@@ -33,7 +33,7 @@ class Player:
     #constructor
     def __init__(self):
         # self.pos = get_canvas_width() // 2, get_canvas_height() // 2
-        self.x, self.y = 250, 80
+        self.x, self.y = 360, 80
         self.dx = 0
         self.speed = 320
         self.image = gfw.image.load(RES_DIR + '/fighters.png')
@@ -42,6 +42,7 @@ class Player:
         half = self.src_rect[2] // 2
         self.minx = half
         self.maxx = get_canvas_width() - half
+        self.life = 3
 
         self.laser_time = 0
         self.roll_time = 0

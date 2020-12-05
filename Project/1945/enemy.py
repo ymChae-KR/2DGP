@@ -139,8 +139,8 @@ class middleEnemy:
         sx = self.fidx * self.src_width
         self.image.clip_draw(sx, 0 , self.src_width, self.src_height, self.x, self.y)
         gy = self.y - Enemy.SIZE // 2
-        rate = self.life / self.max_life
-        life_gauge.draw(self.x, gy, middleEnemy.mSIZE - 10, rate)
+       # rate = self.life / self.max_life
+        #life_gauge.draw(self.x, gy, middleEnemy.mSIZE - 10, rate)
 
     def update(self):
         self.time += gfw.delta_time
@@ -148,7 +148,7 @@ class middleEnemy:
         self.x += self.dx
         self.y += self.dy * gfw.delta_time * 1.5
         if int(gfw.delta_time % 2) == 0:
-            b = EnemyBullet(self.y,self.y,-140)
+            b = EnemyBullet(self.y,self.y,-140, self.level)
             #gfw.world.add(gfw.layer.bullet, b)
 
         if self.y < -Enemy.SIZE:
@@ -202,7 +202,8 @@ class SemiBoss:
         self.x += self.dx
         self.y += self.dy * gfw.delta_time * 0.8
         if int(gfw.delta_time % 2) == 0:
-            b = EnemyBullet(self.y, self.y, -140)
+            pass
+            #b = EnemyBullet(self.y, self.y, -140, self.level)
 
         if self.y < -Enemy.SIZE:
             self.remove()
@@ -225,7 +226,7 @@ class SemiBoss:
 
 class EnemyBullet:
     SIZE = 24
-    def __init__(self, x, y, speed):
+    def __init__(self, x, y, speed, level):
         # self.pos = get_canvas_width() // 2, get_canvas_height() // 2
         self.x, self.y = x, y - 200
         self.dy = speed
@@ -234,6 +235,10 @@ class EnemyBullet:
         self.src_height = self.image.h
         self.time = 0
         self.power = 100
+        self.max_life = 1 * 1000
+        self.life = self.max_life
+        self.fidx = 0
+        self.level = level
 
     def draw(self):
         sx = self.fidx * self.src_width
@@ -251,7 +256,66 @@ class EnemyBullet:
     def remove(self):
         gfw.world.remove(self)
 
+    def decrease_life(self, amount):
+        self.life -= amount
+        return self.life <= 0
+
+    def score(self):
+        return self.max_life
+
     def get_bb(self):
         hw = self.image.w // 2
         hh = self.image.h // 2
         return self.x - hw, self.y - hh, self.x + hw, self.y + hh
+
+class Boss:
+    SIZE = 72
+    def __init__(self, x, speed, level, pX=360):
+        # self.pos = get_canvas_width() // 2, get_canvas_height() // 2
+        self.x, self.y = x, get_canvas_height() #+ Boss.SIZE
+        self.dx, self.dy = 0, speed
+        self.level = level
+        self.max_life = level * 3000
+        self.life = self.max_life
+        self.image = gfw.image.load(RES_DIR + '/스텔스.png')
+        self.fidx = 0
+        self.src_width = self.image.w
+        self.src_height = self.image.h
+        self.time = 0
+
+
+    def draw(self):
+        sx = self.fidx * self.src_width
+        self.image.draw(self.x, self.y)
+        rate = self.life / self.max_life
+        gy = self.y - Boss.SIZE // 2
+        life_gauge.draw(self.x, gy, middleEnemy.mSIZE - 10, rate)
+
+    def update(self):
+        self.time += gfw.delta_time
+        self.fidx = int(self.time * 10 + 0.5)
+        self.x += 0
+        self.y += 0
+        if int(gfw.delta_time % 2) == 0:
+            e = EnemyBullet(self.x, self.y, 100, self.level)
+            gfw.world.add(gfw.layer.enemy, e)
+
+        if self.y < -Boss.SIZE:
+            self.remove()
+
+    def remove(self):
+        e = effect.paritcle(self.x, self.y)
+        gfw.world.add(gfw.layer.particle, e)
+        gfw.world.remove(self)
+
+    def decrease_life(self, amount):
+        self.life -= amount
+        return self.life <= 0
+
+    def score(self):
+        return self.max_life
+
+    def get_bb(self):
+        half = Boss.SIZE // 2 - 5
+        return self.x - half, self.y - half, self.x + half, self.y + half
+

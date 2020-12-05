@@ -21,19 +21,24 @@ def generate_wave():
     for x in GEN_X:
         level = enemy_level()
         speed = -(100 + 5 * wave_index)
-        e = Enemy(x, speed, level)
-        me = middleEnemy(x,speed,level)
-        gfw.world.add(gfw.layer.enemy, e)
-        gfw.world.add(gfw.layer.enemy, me)
 
-        if wave_index == 4:
-            semiB = SemiBoss(x, speed, level)
-            gfw.world.add(gfw.layer.enemy, semiB)
-    for i in range(0,5):
-        x = GEN_X2[i]
+    for i in range(0,int(wave_index * 1.5)):
+        x = random.uniform(0,700)
         speed = -(100 + 5 * wave_index)
         e = redEnemy(x, speed, level)
         gfw.world.add(gfw.layer.enemy, e)
+        e = Enemy(x, speed, level)
+        me = middleEnemy(x, speed, level)
+        gfw.world.add(gfw.layer.enemy, e)
+        gfw.world.add(gfw.layer.enemy, me)
+
+        if wave_index % 3 == 0:
+            semiB = SemiBoss(x, speed, level)
+            gfw.world.add(gfw.layer.enemy, semiB)
+
+    if wave_index == 0:
+        b = Boss(x, speed, level)
+        #gfw.world.add(gfw.layer.enemy, b)
 
     wave_index += 1
     next_wave = random.uniform(5, 10)

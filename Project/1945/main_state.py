@@ -7,15 +7,16 @@ import gobj
 import enemy_gen
 import life_gauge
 from background import VertScrollBackground
+from hp import *
 
 canvas_width = 720
 canvas_height = 960
 
 def enter():
-    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle', 'Boss'])
+    gfw.world.init(['bg', 'enemy', 'bullet', 'player', 'ui', 'particle', 'boss'])
 
     bgSky = VertScrollBackground('StageBack.bmp')
-    bgSky.speed = 10
+    bgSky.speed = 30
     gfw.world.add(gfw.layer.bg, bgSky)
 
     global bgm
@@ -27,19 +28,26 @@ def enter():
     player = Player()
     gfw.world.add(gfw.layer.player, player)
 
+    global hp
+    hp = hp(player.life)
+    gfw.world.add(gfw.layer.ui, hp)
+
     global score
     score = Score(canvas_width - 20, canvas_height - 50)
     gfw.world.add(gfw.layer.ui, score)
+
 
     global font
     font = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 40)
 
     global emenyCnt
-
     life_gauge.load()
 
 def check_enemy(e):
     if gobj.collides_box(player, e):
+        player.life -= 1
+        hp.life -=1
+
         print('Player Collision', e)
         e.remove()
         return
@@ -65,6 +73,16 @@ def draw():
     gfw.world.draw()
     # gobj.draw_collision_box()
     font.draw(20, canvas_height - 45, 'Wave: %d' % enemy_gen.wave_index)
+
+    if (player.life < 0):
+        myScore = score.score
+        GF = False
+        print(player.life)
+        gfw.world.draw()
+        # gobj.draw_collision_box()
+        font.draw(200, canvas_height // 2, 'Game Over')
+        font.draw(200, canvas_height // 2 - 50, 'Your Score is %d' % myScore)
+
 
 def handle_event(e):
     global player
