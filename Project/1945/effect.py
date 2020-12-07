@@ -1,9 +1,9 @@
 from gobj import *
 
 class paritcle:
-    def __init__(self, x, y):
+    def __init__(self, x, y, iX = 30, iY = 27 ):
         self.x, self.y = x, y
-        self.image = gfw.image.load(RES_DIR + '/Effect1-1-cutout.png')
+        self.image = gfw.image.load(RES_DIR + '/Effect1-1-cutout1.png')
         self.width = self.image.w // 12
         self.height = self.image.h
         self.fidx = 0

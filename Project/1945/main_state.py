@@ -1,3 +1,4 @@
+# -*- conding: utf-8 -*-
 import gfw
 from pico2d import *
 from player import Player
@@ -24,6 +25,10 @@ def enter():
     bgm.set_volume(32)
     bgm.repeat_play()
 
+    global effectSound
+    effectSound = load_wav(gobj.res('/SEwav.wav'))
+    effectSound.set_volume(96)
+
     global player
     player = Player()
     gfw.world.add(gfw.layer.player, player)
@@ -47,6 +52,7 @@ def check_enemy(e):
     if gobj.collides_box(player, e):
         player.life -= 1
         hp.life -=1
+        effectSound.play()
 
         print('Player Collision', e)
         e.remove()
@@ -70,18 +76,15 @@ def update():
         check_enemy(e)
 
 def draw():
-    gfw.world.draw()
-    # gobj.draw_collision_box()
-    font.draw(20, canvas_height - 45, 'Wave: %d' % enemy_gen.wave_index)
-
-    if (player.life < 0):
-        myScore = score.score
-        GF = False
-        print(player.life)
+    global myScore
+    if player.life < 0:
         gfw.world.draw()
-        # gobj.draw_collision_box()
         font.draw(200, canvas_height // 2, 'Game Over')
         font.draw(200, canvas_height // 2 - 50, 'Your Score is %d' % myScore)
+    else:
+        gfw.world.draw()
+        font.draw(20, canvas_height - 45, 'Wave: %d' % enemy_gen.wave_index)
+        myScore = score.score
 
 
 def handle_event(e):
